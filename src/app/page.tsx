@@ -73,10 +73,10 @@ export default function Home() {
 
   const generateDreamTeam = (
     players: Player[],
+    noOfWicketKeeper: number,
     noOfBatsman: number,
     noOfAllrounder: number,
     noOfBowler: number,
-    noOfWicketKeeper: number
   ) => {
     return [
       ...getRandomItemsFromArray(
