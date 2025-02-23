@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Page() {
   const [player, setPlayer] = useState({
@@ -12,12 +12,25 @@ function Page() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [teams,setTeams] = useState([]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setPlayer({ ...player, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const response = await axios.get("/api/team/getTeam");
+        setTeams(response.data.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchTeams();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,9 +84,10 @@ function Page() {
             required
           >
             <option value="">Select Team</option>
-            <option value="IND">India</option>
-            <option value="BAN">Bangladesh</option>
-          </select>
+            {teams.map((item:any)=>{
+              return <option key={item.shortCode} value={item.shortCode}>{item.name}</option>
+
+            })}          </select>
         </div>
 
         <div>

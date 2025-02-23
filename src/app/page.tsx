@@ -80,6 +80,10 @@ export default function Home() {
   ) => {
     return [
       ...getRandomItemsFromArray(
+        players.filter((p) => p.role === "WK"),
+        noOfWicketKeeper
+      ),
+      ...getRandomItemsFromArray(
         players.filter((p) => p.role === "BAT"),
         noOfBatsman
       ),
@@ -90,10 +94,6 @@ export default function Home() {
       ...getRandomItemsFromArray(
         players.filter((p) => p.role === "BOWL"),
         noOfBowler
-      ),
-      ...getRandomItemsFromArray(
-        players.filter((p) => p.role === "WK"),
-        noOfWicketKeeper
       ),
     ];
   };
@@ -113,11 +113,12 @@ export default function Home() {
 
     const finalTeam = generateDreamTeam(
       activePlayers,
+      Number(data.noOfWicketKeeper),
       Number(data.noOfBatsman),
       Number(data.noOfAllrounder),
-      Number(data.noOfBowler),
-      Number(data.noOfWicketKeeper)
+      Number(data.noOfBowler)
     );
+
     setDreamTeam(finalTeam);
 
     // Randomly select Captain & Vice-Captain
@@ -170,14 +171,14 @@ export default function Home() {
                   players={playerData.filter((p) => p.role === "BAT")}
                   onToggleChange={handleToggleChange}
                 />
+                  <RolePlayerList
+                    label="Allrounders"
+                    players={playerData.filter((p) => p.role === "AL")}
+                    onToggleChange={handleToggleChange}
+                  />
                 <RolePlayerList
                   label="Bowlers"
                   players={playerData.filter((p) => p.role === "BOWL")}
-                  onToggleChange={handleToggleChange}
-                />
-                <RolePlayerList
-                  label="Allrounders"
-                  players={playerData.filter((p) => p.role === "AL")}
                   onToggleChange={handleToggleChange}
                 />
               </div>
